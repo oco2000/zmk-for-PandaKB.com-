@@ -16,6 +16,15 @@
 #define TRI  3
 
 / {
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+
+        tri_layer {
+            if-layers = <LOW HIGH>;
+            then-layer = <TRI>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -95,14 +104,5 @@
         extra4 { status = "reserved"; };
 
         extra5 { status = "reserved"; };
-    };
-
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-
-        tri_layer {
-            if-layers = <LOW HIGH>;
-            then-layer = <TRI>;
-        };
     };
 };

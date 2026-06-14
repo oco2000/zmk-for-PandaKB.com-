@@ -13,17 +13,9 @@
 #define MAIN 0
 #define LOW  1
 #define HIGH 2
-#define TRI  3
+#define FUN  3
 
 / {
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-        tri_layer {
-            if-layers = <LOW HIGH>;
-            then-layer = <TRI>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -38,7 +30,7 @@
 &kp TAB         &kp Q               &kp W             &kp E     &kp R           &kp T      &kp Y    &kp U            &kp I      &kp O              &kp P                   &kp BSPC
 &mt LCTRL CAPS  &mt LEFT_CONTROL A  &mt LEFT_SHIFT S  &kp D     &mt LEFT_ALT F  &kp G      &kp H    &mt RIGHT_ALT J  &kp K      &mt RIGHT_SHIFT L  &mt RIGHT_CONTROL SEMI  &kp SQT
 &kp LSHFT       &kp Z               &kp X             &kp C     &kp V           &kp B      &kp N    &kp M            &kp COMMA  &kp DOT            &kp FSLH                &kp ESC
-                                                      &kp LGUI  &mo LOW         &kp SPACE  &kp RET  &mo HIGH         &kp RALT
+                                                      &kp LGUI  &mo LOW      &lt FUN SPACE  &kp RET  &mo HIGH         &kp RALT
             >;
 
             display-name = "MAIN";
@@ -78,7 +70,7 @@
             display-name = "HIGH";
         };
 
-        tri_layer {
+        fun_layer {
             // -----------------------------------------------------------------------------------------
             // |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BKSP |
             // | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
@@ -86,12 +78,12 @@
             //                    | GUI |     | SPC |   | ENT |     | ALT |
 
             bindings = <
-&kp TAB     &kp N1        &kp N2        &kp N3           &kp N4        &kp N5        &kp N6    &kp N7    &kp N8    &kp N9     &kp N0  &kp BSPC
+&kp TAB     &kp F1        &kp F2        &kp F3           &kp F4        &kp F5        &kp F6    &kp F7    &kp F8    &kp F9     &kp F10  &kp BSPC
 &bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2     &bt BT_SEL 3  &bt BT_SEL 4  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &trans  &trans
 &kp LSHFT   &bl BL_TOG    &rgb_ug RGB_TOG &trans         &trans        &trans        &trans    &trans    &trans    &trans     &trans  &trans
                                         &kp LGUI         &trans        &kp SPACE     &kp RET   &trans    &kp RALT
             >;
-            display-name = "TRI";
+            display-name = "FUN";
         };
     };
 };

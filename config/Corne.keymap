@@ -48,10 +48,10 @@
 
         lower_layer {
             bindings = <
-&kp TAB    &trans  &kp HOME  &kp UP          &kp PAGE_UP    &trans      &trans   &kp N7        &kp N8        &kp N9        &kp N0  &kp BSPC
-&trans     &trans  &kp LEFT  &kp DOWN        &kp RIGHT      &kp INSERT  &trans   &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &trans  &trans
-&kp LSHFT  &trans  &kp END   &kp DOWN_ARROW  &kp PAGE_DOWN  &kp DELETE  &trans   &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &trans  &trans
-                             &kp LGUI        &trans         &kp SPACE   &kp RET  &trans        &kp NUMBER_0
+&kp TAB    &trans &kp N7        &kp N8        &kp N9         &trans       &trans      &kp HOME  &kp UP          &kp PAGE_UP    &trans  &kp BSPC
+&trans     &trans &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6   &trans       &kp INSERT  &kp LEFT  &kp DOWN        &kp RIGHT      &trans  &trans
+&kp LSHFT  &trans &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3   &kp NUMBER_0 &kp DELETE  &kp END   &kp DOWN_ARROW  &kp PAGE_DOWN  &trans  &trans
+                                 &kp LGUI        &trans      &kp SPACE    &kp RET     &trans    &trans  
             >;
 
             display-name = "LOW";

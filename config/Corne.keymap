@@ -70,10 +70,10 @@
 
         tri_layer {
             bindings = <
-&kp TAB     &sys_reset       &bootloader      &trans           &trans             &trans        &trans   &trans           &trans    &trans  &trans  &kp BSPC
-&bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4  &trans   &kp PRINTSCREEN  &trans    &trans  &trans  &trans
-&kp LSHFT   &rgb_ug RGB_BRD  &rgb_ug RGB_TOG  &rgb_ug RGB_BRI  &ext_power EP_TOG  &trans        &trans   &trans           &trans    &trans  &trans  &trans
-                                              &kp LGUI         &trans             &trans        &kp RET  &trans           &kp RALT
+&kp TAB     &sys_reset       &bootloader      &trans           &trans             &trans        &sys_reset  &bootloader           &trans    &trans  &trans  &kp BSPC
+&bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4  &trans      &kp PRINTSCREEN  &trans    &trans  &trans  &trans
+&kp LSHFT   &rgb_ug RGB_BRD  &rgb_ug RGB_TOG  &rgb_ug RGB_BRI  &ext_power EP_TOG  &trans        &trans      &trans           &trans    &trans  &trans  &trans
+                                              &kp LGUI         &trans             &trans        &kp RET     &trans           &kp RALT
             >;
 
             display-name = "TRI";

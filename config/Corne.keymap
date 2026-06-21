@@ -37,10 +37,10 @@
             //                    | GUI | LWR | ENT |   | SPC | RSE  | ALT |
 
             bindings = <
-&kp TAB         &kp Q               &kp W             &kp E           &kp R           &kp T          &kp Y    &kp U            &kp I       &kp O              &kp P                   &kp BSPC
-&mt LCTRL CAPS  &mt LEFT_CONTROL A  &mt LEFT_SHIFT S  &mt LEFT_GUI D  &mt LEFT_ALT F  &kp G          &kp H    &mt RIGHT_ALT J  &mt RGUI K  &mt RIGHT_SHIFT L  &mt RIGHT_CONTROL SEMI  &kp SQT
-&kp LSHFT       &kp Z               &kp X             &kp C           &kp V           &kp B          &kp N    &kp M            &kp COMMA   &kp DOT            &kp FSLH                &kp ESC
-                                                      &kp LGUI        &mo LOW         &lt FUN RET    &kp SPACE  &mo HIGH         &kp RALT
+&kp TAB         &kp Q               &kp W             &kp E           &kp R           &kp T        &kp Y      &kp U            &kp I       &kp O              &kp P                   &kp BSPC
+&mt LCTRL CAPS  &mt LEFT_CONTROL A  &mt LEFT_SHIFT S  &mt LEFT_GUI D  &mt LEFT_ALT F  &kp G        &kp H      &mt RIGHT_ALT J  &mt RGUI K  &mt RIGHT_SHIFT L  &mt RIGHT_CONTROL SEMI  &kp SQT
+&kp LSHFT       &kp Z               &kp X             &kp C           &kp V           &kp B        &kp N      &kp M            &kp COMMA   &kp DOT            &kp FSLH                &kp ESC
+                                                      &kp LGUI        &mo LOW         &lt FUN RET  &kp SPACE  &mo HIGH         &kp RALT
             >;
 
             display-name = "MAIN";
@@ -48,10 +48,10 @@
 
         lower_layer {
             bindings = <
-&kp TAB    &trans &kp N7        &kp N8        &kp N9         &trans       &trans      &kp HOME  &kp UP          &kp PAGE_UP    &trans  &kp BSPC
-&trans     &trans &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6   &trans       &kp INSERT  &kp LEFT  &kp DOWN        &kp RIGHT      &trans  &trans
-&kp LSHFT  &trans &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3   &kp NUMBER_0 &kp DELETE  &kp END   &kp DOWN_ARROW  &kp PAGE_DOWN  &trans  &trans
-                                 &kp LGUI        &trans      &trans       &trans      &trans    &trans  
+&kp TAB    &trans  &kp N7        &kp N8        &kp N9        &trans        &trans      &kp HOME  &kp UP          &kp PAGE_UP    &trans  &kp BSPC
+&trans     &trans  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &trans        &kp INSERT  &kp LEFT  &kp DOWN        &kp RIGHT      &trans  &trans
+&kp LSHFT  &trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_0  &kp DELETE  &kp END   &kp DOWN_ARROW  &kp PAGE_DOWN  &trans  &trans
+                                 &kp LGUI      &trans        &trans        &trans      &trans    &trans
             >;
 
             display-name = "LOW";
@@ -70,10 +70,10 @@
 
         tri_layer {
             bindings = <
-&kp TAB     &sys_reset       &bootloader      &trans           &trans             &trans        &sys_reset  &bootloader           &trans    &trans  &trans  &kp BSPC
-&bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4  &trans      &kp PRINTSCREEN  &trans    &trans  &trans  &trans
-&kp LSHFT   &rgb_ug RGB_BRD  &rgb_ug RGB_TOG  &rgb_ug RGB_BRI  &ext_power EP_TOG  &trans        &trans      &trans           &trans    &trans  &trans  &trans
-                                              &kp LGUI         &trans             &trans        &trans      &trans           &kp RALT
+&kp TAB     &sys_reset       &bootloader      &trans           &trans             &trans           &sys_reset  &bootloader      &trans    &trans  &trans  &kp BSPC
+&bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4     &trans      &kp PRINTSCREEN  &trans    &trans  &trans  &trans
+&kp LSHFT   &rgb_ug RGB_BRD  &rgb_ug RGB_TOG  &rgb_ug RGB_BRI  &ext_power EP_TOG  &rgb_ug RGB_EFF  &trans      &trans           &trans    &trans  &trans  &trans
+                                              &kp LGUI         &trans             &trans           &trans      &trans           &kp RALT
             >;
 
             display-name = "TRI";
@@ -81,10 +81,10 @@
 
         fun_layer {
             bindings = <
-&kp TAB    &kp F1  &kp F2  &kp F3    &kp F4  &kp F5  &kp F6   &kp F7  &kp F8   &kp F9  &kp F10  &kp BSPC
-&trans     &trans  &trans  &trans    &trans  &trans  &trans   &kp F4  &kp F5   &kp F6  &kp F11  &trans
-&kp LSHFT  &trans  &trans  &trans    &trans  &trans  &trans   &kp F1  &kp F2   &kp F3  &kp F12  &trans
-                           &kp LGUI  &trans  &trans  &trans   &trans  &kp F10
+&kp TAB    &kp F1  &kp F2  &kp F3    &kp F4  &kp F5  &kp F6  &kp F7  &kp F8   &kp F9  &kp F10  &kp BSPC
+&trans     &trans  &trans  &trans    &trans  &trans  &trans  &kp F4  &kp F5   &kp F6  &kp F11  &trans
+&kp LSHFT  &trans  &trans  &trans    &trans  &trans  &trans  &kp F1  &kp F2   &kp F3  &kp F12  &trans
+                           &kp LGUI  &trans  &trans  &trans  &trans  &kp F10
             >;
 
             display-name = "FUN";

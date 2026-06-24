@@ -15,6 +15,7 @@
 #define HIGH 2
 #define TRI  3
 #define FUN  4
+#define NUM  5
 
 / {
     conditional_layers {
@@ -23,6 +24,18 @@
         tri_layer {
             if-layers = <LOW HIGH>;
             then-layer = <TRI>;
+        };
+    };
+
+    behaviors {
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <220>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <125>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
         };
     };
 
@@ -37,10 +50,10 @@
             //                    | GUI | LWR | ENT |   | SPC | RSE  | ALT |
 
             bindings = <
-&kp TAB         &kp Q               &kp W             &kp E           &kp R           &kp T        &kp Y      &kp U            &kp I       &kp O              &kp P                   &kp BSPC
-&mt LSHFT CAPS  &mt LEFT_CONTROL A  &mt LEFT_SHIFT S  &mt LEFT_GUI D  &mt LEFT_ALT F  &kp G        &kp H      &mt RIGHT_ALT J  &mt RGUI K  &mt RIGHT_SHIFT L  &mt RIGHT_CONTROL SEMI  &kp SQT
-&kp LCTRL       &kp Z               &kp X             &kp C           &kp V           &kp B        &kp N      &kp M            &kp COMMA   &kp DOT            &kp FSLH                &kp ESC
-                                                      &kp LGUI        &mo LOW         &lt FUN RET  &kp SPACE  &mo HIGH         &kp RALT
+&kp TAB         &kp Q        &kp W        &kp E       &kp R       &kp T        &kp Y      &kp U        &kp I       &kp O        &kp P           &kp BSPC
+&hm LSHFT CAPS  &hm LCTRL A  &hm LSHFT S  &hm LGUI D  &hm LALT F  &kp G        &kp H      &hm RALT J   &hm RGUI K  &hm RSHFT L  &hm RCTRL SEMI  &kp SQT
+&kp LCTRL       &kp Z        &kp X        &kp C       &kp V       &kp B        &kp N      &kp M        &kp COMMA   &kp DOT      &kp FSLH        &kp ESC
+                                          &kp LGUI    &mo LOW     &lt NUM RET  &lt FUN SPACE  &mo HIGH  &kp RALT
             >;
 
             display-name = "MAIN";
@@ -48,10 +61,10 @@
 
         lower_layer {
             bindings = <
-&kp TAB  &trans        &kp N7        &kp N8        &kp N9        &trans        &trans      &kp HOME  &kp UP          &kp PAGE_UP    &trans   &kp BSPC
-&trans   &trans        &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &trans        &kp INSERT  &kp LEFT  &kp DOWN        &kp RIGHT      &kp RET  &kp RET
-&trans   &kp NUMBER_0  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp NUMBER_0  &kp DELETE  &kp END   &kp DOWN_ARROW  &kp PAGE_DOWN  &kp RET  &trans
-                                     &kp LGUI      &trans        &trans        &trans      &trans    &trans
+&trans   &trans        &kp LC(HOME)  &kp LC(UP)          &kp LC(PAGE_UP)     &trans        &trans       &kp HOME  &kp UP          &kp PAGE_UP    &trans         &trans
+&trans   &trans        &kp LC(LEFT)  &kp LC(DOWN)        &kp LC(RIGHT)       &trans        &kp INSERT   &kp LEFT  &kp DOWN        &kp RIGHT      &kp RET        &kp RET
+&trans   &trans        &kp LC(END)   &kp LC(DOWN)        &kp LC(PAGE_DOWN)   &kp LC(BSLH)  &kp DELETE   &kp END   &kp DOWN        &kp PAGE_DOWN  &kp RET        &trans
+                                     &trans              &trans              &trans        &trans       &trans    &trans
             >;
 
             display-name = "LOW";
@@ -59,10 +72,10 @@
 
         raise_layer {
             bindings = <
-&kp TAB  &kp EXCL  &kp AT        &kp HASH  &kp DLLR       &kp PRCNT  &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &kp BSPC
-&trans   &trans    &kp LC(LEFT)  &trans    &kp LC(RIGHT)  &trans     &kp MINUS  &kp EQUAL  &kp LBKT         &kp RBKT  &kp BSLH  &kp GRAVE
-&trans   &trans    &trans        &trans    &trans         &trans     &kp UNDER  &kp PLUS   &kp LBRC         &kp RBRC  &kp PIPE  &kp TILDE
-                                 &kp LGUI  &trans         &trans     &trans     &trans     &kp RALT
+&kp TILDE &kp EXCL  &kp AT        &kp HASH  &kp DLLR       &kp PRCNT  &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &trans
+&trans    &trans    &trans        &trans    &trans         &trans     &kp MINUS  &kp EQUAL  &kp LBKT         &kp RBKT  &kp BSLH  &kp GRAVE
+&trans    &trans    &trans        &trans    &trans         &trans     &kp UNDER  &kp PLUS   &kp LBRC         &kp RBRC  &kp PIPE  &kp TILDE
+                                 &trans    &trans         &trans     &trans     &trans     &trans
             >;
 
             display-name = "HIGH";
@@ -70,10 +83,10 @@
 
         tri_layer {
             bindings = <
-&kp TAB     &sys_reset       &bootloader      &trans           &trans             &trans           &sys_reset  &bootloader      &trans    &trans  &trans  &kp BSPC
+&trans      &sys_reset       &bootloader      &trans           &trans             &trans           &sys_reset  &bootloader      &trans    &trans  &trans  &trans
 &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4     &trans      &kp PRINTSCREEN  &trans    &trans  &trans  &trans
 &trans      &rgb_ug RGB_BRD  &rgb_ug RGB_TOG  &rgb_ug RGB_BRI  &ext_power EP_TOG  &rgb_ug RGB_EFF  &trans      &trans           &trans    &trans  &trans  &trans
-                                              &kp LGUI         &trans             &trans           &trans      &trans           &kp RALT
+                                              &trans           &trans             &trans           &trans      &trans           &trans
             >;
 
             display-name = "TRI";
@@ -81,13 +94,24 @@
 
         fun_layer {
             bindings = <
-&kp TAB  &kp F1  &kp F2  &kp F3    &kp F4  &kp F5  &kp F6  &kp F7  &kp F8   &kp F9  &kp F10  &kp BSPC
+&trans   &kp F1  &kp F2  &kp F3    &kp F4  &kp F5  &kp F6  &kp F7  &kp F8   &kp F9  &kp F10  &trans
 &trans   &trans  &trans  &trans    &trans  &trans  &trans  &kp F4  &kp F5   &kp F6  &kp F11  &trans
 &trans   &trans  &trans  &trans    &trans  &trans  &trans  &kp F1  &kp F2   &kp F3  &kp F12  &trans
-                         &kp LGUI  &trans  &trans  &trans  &trans  &kp F10
+                         &trans    &trans  &trans  &trans  &trans  &kp F10
             >;
 
             display-name = "FUN";
+        };
+
+        num_layer {
+            bindings = <
+&trans   &kp N1  &kp N2  &kp N3    &kp N4  &kp N5  &kp N6  &kp N7  &kp N8   &kp N9  &kp N0    &trans
+&trans   &trans  &trans  &trans    &trans  &trans  &trans  &kp N4  &kp N5   &kp N6  &kp PLUS  &trans
+&trans   &trans  &trans  &trans    &trans  &trans  &kp DOT &kp N1  &kp N2   &kp N3  &kp MINUS &kp RET
+                         &trans    &trans  &trans  &trans  &kp RET &kp N0
+            >;
+
+            display-name = "NUM";
         };
     };
 };

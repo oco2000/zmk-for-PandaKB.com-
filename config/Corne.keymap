@@ -50,10 +50,10 @@
             //                    | GUI | LWR | ENT |   | SPC | RSE  | ALT |
 
             bindings = <
-&kp TAB         &kp Q        &kp W        &kp E       &kp R       &kp T        &kp Y      &kp U        &kp I       &kp O        &kp P           &kp BSPC
-&hm LSHFT CAPS  &hm LCTRL A  &hm LSHFT S  &hm LGUI D  &hm LALT F  &kp G        &kp H      &hm RALT J   &hm RGUI K  &hm RSHFT L  &hm RCTRL SEMI  &kp SQT
-&kp LCTRL       &kp Z        &kp X        &kp C       &kp V       &kp B        &kp N      &kp M        &kp COMMA   &kp DOT      &kp FSLH        &kp ESC
-                                          &kp LGUI    &mo LOW     &lt NUM RET  &lt FUN SPACE  &mo HIGH  &kp RALT
+&kp TAB         &kp Q        &kp W             &kp E                &kp R               &kp T        &kp Y      &kp U        &kp I       &kp O        &kp P           &kp BSPC
+&hm LSHFT CAPS  &hm LCTRL A  &hm LSHFT S       &hm LGUI D           &hm LALT F          &kp G        &kp H      &hm RALT J   &hm RGUI K  &hm RSHFT L  &hm RCTRL SEMI  &kp SQT
+&hm LCTRL ESC   &mt LC(Z) Z  &mt LS(DELETE) X  &mt LC(INSERT) C     &mt LS(INSERT)  V   &kp B        &kp N      &kp M        &kp COMMA   &kp DOT      &kp FSLH        &kp ESC
+                                               &kp LGUI             &mo LOW             &lt NUM RET  &lt FUN SPACE  &mo HIGH  &kp RALT
             >;
 
             display-name = "MAIN";
@@ -61,8 +61,8 @@
 
         lower_layer {
             bindings = <
-&trans   &trans        &kp LC(HOME)  &kp LC(UP)          &kp LC(PAGE_UP)     &trans        &trans       &kp HOME  &kp UP          &kp PAGE_UP    &trans         &trans
-&trans   &trans        &kp LC(LEFT)  &kp LC(DOWN)        &kp LC(RIGHT)       &trans        &kp INSERT   &kp LEFT  &kp DOWN        &kp RIGHT      &kp RET        &kp RET
+&trans   &trans        &kp LC(HOME)  &kp LC(UP)          &kp LC(PAGE_UP)     &kp LA(LEFT)  &trans       &kp HOME  &kp UP          &kp PAGE_UP    &trans         &trans
+&trans   &trans        &kp LC(LEFT)  &kp LC(DOWN)        &kp LC(RIGHT)       &kp LA(RIGHT) &kp INSERT   &kp LEFT  &kp DOWN        &kp RIGHT      &kp RET        &kp RET
 &trans   &trans        &kp LC(END)   &kp LC(DOWN)        &kp LC(PAGE_DOWN)   &kp LC(BSLH)  &kp DELETE   &kp END   &kp DOWN        &kp PAGE_DOWN  &kp RET        &trans
                                      &trans              &trans              &trans        &trans       &trans    &trans
             >;
@@ -106,9 +106,9 @@
         num_layer {
             bindings = <
 &trans   &kp N1  &kp N2  &kp N3    &kp N4  &kp N5  &kp N6  &kp N7  &kp N8   &kp N9  &kp N0    &trans
-&trans   &trans  &trans  &trans    &trans  &trans  &trans  &kp N4  &kp N5   &kp N6  &kp PLUS  &trans
+&trans   &trans  &trans  &trans    &trans  &trans  &trans  &kp N4  &kp N5   &kp N6  &kp PLUS  &kp RET
 &trans   &trans  &trans  &trans    &trans  &trans  &kp DOT &kp N1  &kp N2   &kp N3  &kp MINUS &kp RET
-                         &trans    &trans  &trans  &trans  &kp RET &kp N0
+                         &trans    &trans  &trans  &trans  &kp N0  &kp RET
             >;
 
             display-name = "NUM";

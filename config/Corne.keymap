@@ -17,6 +17,10 @@
 #define FUN  4
 #define NUM  5
 
+&mt {
+    tapping-term-ms = <300>;
+};
+
 / {
     conditional_layers {
         compatible = "zmk,conditional-layers";

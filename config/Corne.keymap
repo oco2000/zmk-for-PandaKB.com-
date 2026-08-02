@@ -11,9 +11,9 @@
 #include <dt-bindings/zmk/rgb.h>
 
 #define MAIN 0
-#define LOW  1
-#define HIGH 2
-#define TRI  3
+#define SYM  1
+#define NAV  2
+#define SYS  3
 #define FUN  4
 #define NUM  5
 
@@ -21,9 +21,9 @@
     conditional_layers {
         compatible = "zmk,conditional-layers";
 
-        tri_layer {
-            if-layers = <LOW HIGH>;
-            then-layer = <TRI>;
+        sys_layer {
+            if-layers = <SYM NAV>;
+            then-layer = <SYS>;
         };
     };
 
@@ -50,16 +50,16 @@
             //                    | GUI | LWR | ENT |   | SPC | RSE  | ALT |
 
             bindings = <
-&kp TAB         &kp Q        &kp W             &kp E                &kp R               &kp T        &kp Y      &kp U        &kp I       &kp O        &kp P           &kp BSPC
-&hm LSHFT CAPS  &hm LCTRL A  &hm LSHFT S       &hm LGUI D           &hm LALT F          &kp G        &kp H      &hm RALT J   &hm RGUI K  &hm RSHFT L  &hm RCTRL SEMI  &kp SQT
-&hm LCTRL ESC   &mt LC(Z) Z  &mt LS(DELETE) X  &mt LC(INSERT) C     &mt LS(INSERT)  V   &kp B        &kp N      &kp M        &kp COMMA   &kp DOT      &kp FSLH        &kp ESC
-                                               &kp LGUI             &mo LOW             &lt NUM RET  &lt FUN SPACE  &mo HIGH  &kp RALT
+&mt LC(TAB) TAB &kp Q        &mt LC(W) W       &kp E                &mt F5 R            &kp T        &kp Y          &kp U        &kp I       &mt LBKT O   &mt RBKT P           &kp BSPC
+&hm LSHFT CAPS  &hm LCTRL A  &hm LSHFT S       &hm LGUI D           &hm LALT F          &kp G        &kp H          &hm RALT J   &hm RGUI K  &hm RSHFT L  &hm RCTRL SEMI  &kp SQT
+&hm LCTRL ESC   &mt LC(Z) Z  &mt LS(DELETE) X  &mt LC(INSERT) C     &mt LS(INSERT)  V   &kp B        &kp N          &kp M        &kp COMMA   &kp DOT      &kp FSLH        &kp ESC
+                                               &kp LGUI             &mo SYM             &lt NUM RET  &lt FUN SPACE  &mo NAV  &kp RALT
             >;
 
             display-name = "MAIN";
         };
 
-        lower_layer {
+        nav_layer {
             bindings = <
 &trans   &trans        &kp LC(HOME)  &kp LC(UP)          &kp LC(PAGE_UP)     &kp LA(LEFT)  &trans       &kp HOME  &kp UP          &kp PAGE_UP    &trans         &trans
 &trans   &trans        &kp LC(LEFT)  &kp LC(DOWN)        &kp LC(RIGHT)       &kp LA(RIGHT) &kp INSERT   &kp LEFT  &kp DOWN        &kp RIGHT      &kp RET        &kp RET
@@ -67,21 +67,21 @@
                                      &trans              &trans              &trans        &trans       &trans    &trans
             >;
 
-            display-name = "LOW";
+            display-name = "SYM";
         };
 
-        raise_layer {
+        sym_layer {
             bindings = <
 &kp TILDE &kp EXCL  &kp AT        &kp HASH  &kp DLLR       &kp PRCNT  &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &trans
 &trans    &trans    &trans        &trans    &trans         &trans     &kp MINUS  &kp EQUAL  &kp LBKT         &kp RBKT  &kp BSLH  &kp GRAVE
 &trans    &trans    &trans        &trans    &trans         &trans     &kp UNDER  &kp PLUS   &kp LBRC         &kp RBRC  &kp PIPE  &kp TILDE
-                                 &trans    &trans         &trans     &trans     &trans     &trans
+                                  &trans    &trans         &trans     &trans     &trans     &trans
             >;
 
-            display-name = "HIGH";
+            display-name = "NAV";
         };
 
-        tri_layer {
+        sys_layer {
             bindings = <
 &trans      &sys_reset       &bootloader      &trans           &trans             &trans           &sys_reset  &bootloader      &trans    &trans  &trans  &trans
 &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4     &trans      &kp PRINTSCREEN  &trans    &trans  &trans  &trans
@@ -89,7 +89,7 @@
                                               &trans           &trans             &trans           &trans      &trans           &trans
             >;
 
-            display-name = "TRI";
+            display-name = "SYS";
         };
 
         fun_layer {
@@ -105,10 +105,10 @@
 
         num_layer {
             bindings = <
-&trans   &kp N1  &kp N2  &kp N3    &kp N4  &kp N5  &kp N6  &kp N7  &kp N8   &kp N9  &kp N0    &trans
-&trans   &trans  &trans  &trans    &trans  &trans  &trans  &kp N4  &kp N5   &kp N6  &kp PLUS  &kp RET
-&trans   &trans  &trans  &trans    &trans  &trans  &kp DOT &kp N1  &kp N2   &kp N3  &kp MINUS &kp RET
-                         &trans    &trans  &trans  &trans  &kp N0  &kp RET
+&trans   &kp N1  &kp N2  &kp N3    &kp N4  &kp N5  &kp N6     &kp N7  &kp N8   &kp N9  &kp N0    &trans
+&trans   &trans  &trans  &trans    &trans  &trans  &kp COMMA  &kp N4  &kp N5   &kp N6  &kp PLUS  &kp RET
+&trans   &trans  &trans  &trans    &trans  &trans  &kp DOT    &kp N1  &kp N2   &kp N3  &kp MINUS &kp RET
+                         &trans    &trans  &trans  &trans     &kp N0  &kp RET
             >;
 
             display-name = "NUM";

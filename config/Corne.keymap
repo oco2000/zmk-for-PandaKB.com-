@@ -89,9 +89,9 @@
 
         sys_layer {
             bindings = <
-&trans      &sys_reset       &bootloader      &trans           &trans             &trans           &sys_reset  &bootloader      &trans    &trans  &trans  &trans
-&bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4     &trans      &kp PRINTSCREEN  &trans    &trans  &trans  &trans
-&trans      &rgb_ug RGB_BRD  &rgb_ug RGB_TOG  &rgb_ug RGB_BRI  &ext_power EP_TOG  &rgb_ug RGB_EFF  &trans      &trans           &trans    &trans  &trans  &trans
+&trans      &sys_reset       &bootloader      &trans           &trans             &trans           &sys_reset  &bootloader      &rgb_ug RGB_HUD   &rgb_ug RGB_HUI  &trans  &trans
+&bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4     &trans      &kp PRINTSCREEN  &rgb_ug RGB_SAD   &rgb_ug RGB_SAI  &trans  &trans
+&trans      &rgb_ug RGB_BRD  &rgb_ug RGB_TOG  &rgb_ug RGB_BRI  &ext_power EP_TOG  &rgb_ug RGB_EFF  &trans      &trans           &rgb_ug RGB_SPD   &rgb_ug RGB_SPI  &trans  &trans
                                               &trans           &trans             &trans           &trans      &trans           &trans
             >;
 

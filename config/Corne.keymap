@@ -11,8 +11,8 @@
 #include <dt-bindings/zmk/rgb.h>
 
 #define MAIN 0
-#define SYM  1
-#define NAV  2
+#define NAV  1
+#define SYM  2
 #define SYS  3
 #define FUN  4
 #define NUM  5
@@ -59,7 +59,7 @@
 &mt LC(TAB) TAB &kp Q        &mt LC(W) W       &kp E                &mt F5 R            &kp T        &kp Y          &kp U        &kp I       &mt LBKT O   &mt RBKT P           &kp BSPC
 &hm LSHFT CAPS  &hm LCTRL A  &hm LSHFT S       &hm LGUI D           &hm LALT F          &kp G        &kp H          &hm RALT J   &hm RGUI K  &hm RSHFT L  &hm RCTRL SEMI  &kp SQT
 &hm LCTRL ESC   &mt LC(Z) Z  &mt LS(DELETE) X  &mt LC(INSERT) C     &mt LS(INSERT)  V   &kp B        &kp N          &kp M        &kp COMMA   &kp DOT      &kp FSLH        &kp ESC
-                                               &kp LGUI             &mo SYM             &lt NUM RET  &lt FUN SPACE  &mo NAV  &kp RALT
+                                               &kp LGUI             &mo NAV             &lt NUM RET  &lt FUN SPACE  &mo SYM      &kp RALT
             >;
 
             display-name = "MAIN";
@@ -73,7 +73,7 @@
                                      &trans              &trans              &trans        &trans       &trans    &trans
             >;
 
-            display-name = "SYM";
+            display-name = "NAV";
         };
 
         sym_layer {
@@ -84,7 +84,7 @@
                                   &trans    &trans         &trans     &trans     &trans     &trans
             >;
 
-            display-name = "NAV";
+            display-name = "SYM";
         };
 
         sys_layer {

@@ -1,5 +1,12 @@
 # Per-key RGB indicators for the PandaKB Corne (ZMK v0.3)
 
+> **Status: implemented.** This is the design record as approved, kept for the
+> reasoning and the verified facts about ZMK v0.3. The devicetree snippets below
+> are from the design, not the final schema — the live configuration is
+> `config/Corne.keymap`, described by the bindings in `dts/bindings/`.
+> Known drift: `unbound-color` shipped as `unbound-value`, and the underglow LEDs
+> follow the active layer's colour by default.
+
 > Supersedes the shipped whole-strip feature (`src/underglow_indicators.c` + the
 > `underglow_indicators` node in `config/Corne.keymap`), which is deleted in Slice 1.
 >

@@ -26,20 +26,37 @@
 
 / {
     // Reusable position sets. Declared once, coloured where they are used.
-    prgb_arrows: prgb_arrows {
+
+    // The right hand's 3x3 block. It is the navigation pad on NAV, the numpad
+    // on NUM and F7-F9/F4-F6/F1-F3 on FUN, so all three layers point at it.
+    prgb_pad_r: prgb_pad_r {
         compatible = "zmk,perkey-rgb-zone";
         #zone-cells = <3>;
-        positions = <POS_T9                    // up
-                     POS_H8  POS_H9  POS_H10>; // left down right
+        positions = <POS_T8 POS_T9 POS_T10     // home  up    pgup  /  7 8 9
+                     POS_H8 POS_H9 POS_H10     // left  down  right /  4 5 6
+                     POS_B8 POS_B9 POS_B10>;   // end   down  pgdn  /  1 2 3
     };
 
-    prgb_numpad: prgb_numpad {
+    // The left hand's mirror of it, the same navigation keys with ctrl.
+    prgb_pad_l: prgb_pad_l {
         compatible = "zmk,perkey-rgb-zone";
         #zone-cells = <3>;
-        positions = <POS_T8 POS_T9 POS_T10     // 7 8 9
-                     POS_H8 POS_H9 POS_H10     // 4 5 6
-                     POS_B8 POS_B9 POS_B10     // 1 2 3
-                     POS_TH5>;                 // 0
+        positions = <POS_T3 POS_T4 POS_T5      // ctrl home / up   / pgup
+                     POS_H3 POS_H4 POS_H5      // ctrl left / down / right
+                     POS_B3 POS_B4 POS_B5>;    // ctrl end  / down / pgdn
+    };
+
+    prgb_num_zero: prgb_num_zero {
+        compatible = "zmk,perkey-rgb-zone";
+        #zone-cells = <3>;
+        positions = <POS_TH5>;                 // 0
+    };
+
+    // F10, F11, F12 down the outer column, completing F1-F12.
+    prgb_fn_col: prgb_fn_col {
+        compatible = "zmk,perkey-rgb-zone";
+        #zone-cells = <3>;
+        positions = <POS_T11 POS_H11 POS_B11>;
     };
 
     perkey_rgb {
@@ -61,11 +78,30 @@
         // A key that reaches another layer is painted in that layer's colour,
         // so the thumbs advertise where they go.
         main { layer = <MAIN>; color = <200 100  70>; };
-        nav  { layer = <NAV>;  color = <120 100  70>; zones = <&prgb_arrows 200 100 100>; };
-        sym  { layer = <SYM>;  color = < 20 100  70>; };
-        sys  { layer = <SYS>;  color = <  0 100  70>; };
-        fun  { layer = <FUN>;  color = <285 100  70>; };
-        num  { layer = <NUM>;  color = < 55 100  70>; zones = <&prgb_numpad 200 100 100>; };
+
+        nav {
+            layer = <NAV>;
+            color = <120 100  70>;
+            zones = <&prgb_pad_r 200 100 100>,   // navigation
+                    <&prgb_pad_l 300 100 100>;   // same, with ctrl
+        };
+
+        sym { layer = <SYM>; color = <20 100 70>; };
+        sys { layer = <SYS>; color = < 0 100 70>; };
+
+        fun {
+            layer = <FUN>;
+            color = <285 100  70>;
+            zones = <&prgb_pad_r  200 100 100>,  // F7-F9 / F4-F6 / F1-F3
+                    <&prgb_fn_col 180 100 100>;  // F10-F12
+        };
+
+        num {
+            layer = <NUM>;
+            color = < 55 100  70>;
+            zones = <&prgb_pad_r     200 100 100>,
+                    <&prgb_num_zero  200 100 100>;
+        };
     };
 
 

@@ -1,6 +1,10 @@
 menuconfig ZMK_PERKEY_RGB
 	bool "Per-key RGB indicators (replaces ZMK_RGB_UNDERGLOW)"
 	select LED_STRIP
+	select ZMK_LOW_PRIORITY_WORK_QUEUE
+	# ZMK only defaults SPI on for its own underglow (app/Kconfig.defaults),
+	# and the ws2812-spi driver needs it.
+	select SPI
 	help
 	  Owns the whole addressable strip on this half and paints each LED
 	  according to the key it sits under. Requires CONFIG_ZMK_RGB_UNDERGLOW=n,

@@ -1,0 +1,11 @@
+config ZMK_UNDERGLOW_INDICATORS
+	bool "Tint the RGB underglow to show the active layer and held modifiers"
+	default y
+	depends on ZMK_RGB_UNDERGLOW
+	# Layer state, modifiers and the keymap only exist on the central side.
+	depends on !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
+	help
+	  Sets the underglow hue and saturation from the highest active layer, and
+	  turns the strip white while a modifier is held on the base layer.
+	  Brightness and on/off state are left untouched. Only visible with the
+	  solid effect (CONFIG_ZMK_RGB_UNDERGLOW_EFF_START=0).

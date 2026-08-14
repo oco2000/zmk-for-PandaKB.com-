@@ -24,6 +24,21 @@
 };
 
 / {
+    underglow_indicators {
+        compatible = "zmk,underglow-indicators";
+
+        // Hue (0-360) and saturation (0-100) per layer, in layer order.
+        layer-colors = <220 100>,   // MAIN: blue
+                       <120 100>,   // NAV:  green
+                       < 30 100>,   // SYM:  orange
+                       <  0 100>,   // SYS:  red
+                       <285 100>,   // FUN:  purple
+                       < 55 100>;   // NUM:  yellow
+
+        // Shown while a modifier is held on the base layer.
+        mod-color = <0 0>;          // white
+    };
+
     conditional_layers {
         compatible = "zmk,conditional-layers";
 

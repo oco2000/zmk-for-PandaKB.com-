@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  Underglow color indicators.
+
+  Sets the underglow hue/saturation from the highest active layer, and applies
+  mod-color instead while a modifier is held on the base layer. Brightness and
+  on/off state are never modified.
+
+compatible: "zmk,underglow-indicators"
+
+properties:
+  layer-colors:
+    type: array
+    required: true
+    description: |
+      Hue/saturation pairs, one per keymap layer, in layer order. Hue is
+      0-360, saturation 0-100. Layers without an entry are left untouched.
+
+  mod-color:
+    type: array
+    required: true
+    description: |
+      Hue/saturation pair used while a modifier is held on the base layer.

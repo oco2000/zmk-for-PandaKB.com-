@@ -64,7 +64,7 @@
 
         // <hue 0-359  saturation 0-100  value 0-100>
         default-color   = <200 100  70>;
-        unbound-value   = <15>;            // no function here: layer colour, darkened
+        unbound-value   = <6>;             // no function here: layer colour, darkened
         modifier-color  = <  0   0 100>;   // white
 
         // Only used on a layer with no entry below; otherwise the six

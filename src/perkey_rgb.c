@@ -251,7 +251,8 @@ static void request_save(void) {
     k_work_schedule(&save_work, K_MSEC(CONFIG_ZMK_SETTINGS_SAVE_DEBOUNCE));
 }
 
-static int settings_load(const char *name, size_t len, settings_read_cb read_cb, void *cb_arg) {
+static int prgb_settings_set(const char *name, size_t len, settings_read_cb read_cb,
+                             void *cb_arg) {
     const char *next;
 
     if (!settings_name_steq(name, "state", &next) || next) {
@@ -276,7 +277,7 @@ static int settings_load(const char *name, size_t len, settings_read_cb read_cb,
     return 0;
 }
 
-SETTINGS_STATIC_HANDLER_DEFINE(prgb, "prgb", NULL, settings_load, NULL, NULL);
+SETTINGS_STATIC_HANDLER_DEFINE(prgb, "prgb", NULL, prgb_settings_set, NULL, NULL);
 
 bool zmk_perkey_rgb_is_on(void) { return state_on; }
 

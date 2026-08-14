@@ -46,6 +46,17 @@
 			;
 	};
 
+	behaviors {
+		/* Internal transport for the per-key RGB layer state. The device
+		 * name is relayed as a string in a 16-byte field, so it must stay
+		 * short. */
+		prgb_sync: prgb_sync {
+			compatible = "zmk,behavior-perkey-rgb-sync";
+			#binding-cells = <2>;
+			display-name = "Per-key RGB sync";
+		};
+	};
+
 	chosen {
 		zephyr,display = &oled;
 		zmk,kscan = &kscan0;

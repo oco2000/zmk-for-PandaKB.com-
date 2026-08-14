@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  A named set of key positions that a layer can colour differently.
+
+  The colour lives at the reference, not here, so the same set can be reused on
+  several layers with a different colour each time:
+
+      zones = <&prgb_numpad 200 100 90>;
+
+compatible: "zmk,perkey-rgb-zone"
+
+zone-cells:
+  - hue
+  - saturation
+  - value
+
+properties:
+  "#zone-cells":
+    type: int
+    required: true
+    const: 3
+
+  positions:
+    type: array
+    required: true
+    description: Key positions (see dt-bindings/zmk/corne_positions.h).

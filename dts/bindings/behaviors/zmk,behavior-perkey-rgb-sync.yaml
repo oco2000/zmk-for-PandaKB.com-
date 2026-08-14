@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  Internal: carries per-key RGB state from the central to the peripherals.
+  Not meant to be bound to a key.
+
+compatible: "zmk,behavior-perkey-rgb-sync"
+
+include: two_param.yaml

@@ -53,23 +53,78 @@ struct prgb_hsb {
     uint8_t v;  /* 0-100 */
 };
 
-#define HSB_FROM_PROP(prop)                                                                        \
+#define HSB(node, prop)                                                                            \
     {                                                                                              \
-        .h = DT_INST_PROP_BY_IDX(0, prop, 0), .s = DT_INST_PROP_BY_IDX(0, prop, 1),                \
-        .v = DT_INST_PROP_BY_IDX(0, prop, 2),                                                      \
+        .h = DT_PROP_BY_IDX(node, prop, 0), .s = DT_PROP_BY_IDX(node, prop, 1),                    \
+        .v = DT_PROP_BY_IDX(node, prop, 2),                                                        \
     }
 
-BUILD_ASSERT(DT_INST_PROP_LEN(0, default_color) == 3, "default-color must be <hue sat val>");
-BUILD_ASSERT(DT_INST_PROP_LEN(0, underglow_color) == 3, "underglow-color must be <hue sat val>");
-
-static const struct prgb_hsb color_default = HSB_FROM_PROP(default_color);
-static const struct prgb_hsb color_underglow = HSB_FROM_PROP(underglow_color);
+static const struct prgb_hsb color_default = HSB(DT_DRV_INST(0), default_color);
+static const struct prgb_hsb color_underglow = HSB(DT_DRV_INST(0), underglow_color);
+static const struct prgb_hsb color_unbound = HSB(DT_DRV_INST(0), unbound_color);
+static const struct prgb_hsb color_modifier = HSB(DT_DRV_INST(0), modifier_color);
 
 #define HAS_PRESSED_COLOR DT_INST_NODE_HAS_PROP(0, pressed_color)
 #if HAS_PRESSED_COLOR
-BUILD_ASSERT(DT_INST_PROP_LEN(0, pressed_color) == 3, "pressed-color must be <hue sat val>");
-static const struct prgb_hsb color_pressed = HSB_FROM_PROP(pressed_color);
+static const struct prgb_hsb color_pressed = HSB(DT_DRV_INST(0), pressed_color);
 #endif
+
+/* Zone position lists, named by devicetree ordinal so a layer can point at one. */
+struct prgb_zone {
+    const uint8_t *positions;
+    uint8_t positions_len;
+    struct prgb_hsb color;
+};
+
+#define ZONE_POSITIONS_SYM(node) _CONCAT(prgb_zone_positions_, DT_DEP_ORD(node))
+#define ZONE_POSITIONS_DEFINE(node)                                                                \
+    static const uint8_t ZONE_POSITIONS_SYM(node)[] = DT_PROP(node, positions);
+
+DT_FOREACH_STATUS_OKAY(zmk_perkey_rgb_zone, ZONE_POSITIONS_DEFINE)
+
+#define ZONE_REF(node, prop, idx)                                                                  \
+    {                                                                                              \
+        .positions = ZONE_POSITIONS_SYM(DT_PHANDLE_BY_IDX(node, prop, idx)),                       \
+        .positions_len = DT_PROP_LEN(DT_PHANDLE_BY_IDX(node, prop, idx), positions),               \
+        .color =                                                                                   \
+            {                                                                                      \
+                .h = DT_PHA_BY_IDX(node, prop, idx, hue),                                          \
+                .s = DT_PHA_BY_IDX(node, prop, idx, saturation),                                   \
+                .v = DT_PHA_BY_IDX(node, prop, idx, value),                                        \
+            },                                                                                     \
+    },
+
+#define LAYER_ZONES_SYM(node) _CONCAT(prgb_layer_zones_, DT_DEP_ORD(node))
+#define LAYER_ZONES_DEFINE(node)                                                                   \
+    COND_CODE_1(DT_NODE_HAS_PROP(node, zones),                                                     \
+                (static const struct prgb_zone LAYER_ZONES_SYM(node)[] =                           \
+                     {DT_FOREACH_PROP_ELEM(node, zones, ZONE_REF)};),                              \
+                ())
+
+DT_INST_FOREACH_CHILD_STATUS_OKAY(0, LAYER_ZONES_DEFINE)
+
+struct prgb_layer_cfg {
+    uint8_t layer;
+    struct prgb_hsb color;
+    struct prgb_hsb underglow;
+    bool has_underglow;
+    const struct prgb_zone *zones;
+    uint8_t zones_len;
+};
+
+#define LAYER_CFG(node)                                                                            \
+    {                                                                                              \
+        .layer = DT_PROP(node, layer),                                                             \
+        .color = HSB(node, color),                                                                 \
+        .has_underglow = DT_NODE_HAS_PROP(node, underglow_color),                                  \
+        .underglow = COND_CODE_1(DT_NODE_HAS_PROP(node, underglow_color),                          \
+                                 (HSB(node, underglow_color)), ({0})),                             \
+        .zones = COND_CODE_1(DT_NODE_HAS_PROP(node, zones), (LAYER_ZONES_SYM(node)), (NULL)),      \
+        .zones_len =                                                                               \
+            COND_CODE_1(DT_NODE_HAS_PROP(node, zones), (ARRAY_SIZE(LAYER_ZONES_SYM(node))), (0)),  \
+    },
+
+static const struct prgb_layer_cfg layer_cfgs[] = {DT_INST_FOREACH_CHILD_STATUS_OKAY(0, LAYER_CFG)};
 
 #define SETTINGS_VERSION 1
 
@@ -87,6 +142,7 @@ static bool ever_sent;
 
 static bool state_on = IS_ENABLED(CONFIG_ZMK_PERKEY_RGB_ON_START);
 static uint8_t state_brightness = CONFIG_ZMK_PERKEY_RGB_BRT_START;
+static uint8_t state_layer;
 
 static uint64_t pressed_positions;
 
@@ -132,6 +188,63 @@ static struct led_rgb hsb_to_rgb(struct prgb_hsb hsb, uint8_t scale_percent) {
     }
 }
 
+static const struct prgb_layer_cfg *layer_cfg(uint8_t layer) {
+    for (size_t i = 0; i < ARRAY_SIZE(layer_cfgs); i++) {
+        if (layer_cfgs[i].layer == layer) {
+            return &layer_cfgs[i];
+        }
+    }
+
+    return NULL;
+}
+
+static bool zone_color(const struct prgb_layer_cfg *cfg, uint8_t position,
+                       struct prgb_hsb *out) {
+    if (!cfg) {
+        return false;
+    }
+
+    /* First zone naming this position wins, so the order in the keymap is the
+     * order of precedence. */
+    for (size_t z = 0; z < cfg->zones_len; z++) {
+        for (size_t i = 0; i < cfg->zones[z].positions_len; i++) {
+            if (cfg->zones[z].positions[i] == position) {
+                *out = cfg->zones[z].color;
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+static struct prgb_hsb key_color(const struct prgb_layer_cfg *cfg, uint8_t position) {
+    struct zmk_perkey_rgb_key_role role = zmk_perkey_rgb_role_at(state_layer, position);
+
+    switch (role.role) {
+    case ZMK_PERKEY_RGB_ROLE_MOD:
+        return color_modifier;
+
+    case ZMK_PERKEY_RGB_ROLE_LAYER: {
+        const struct prgb_layer_cfg *target = layer_cfg(role.param);
+        return target ? target->color : color_default;
+    }
+
+    case ZMK_PERKEY_RGB_ROLE_UNBOUND:
+        return color_unbound;
+
+    default:
+        break;
+    }
+
+    struct prgb_hsb zone;
+    if (zone_color(cfg, position, &zone)) {
+        return zone;
+    }
+
+    return cfg ? cfg->color : color_default;
+}
+
 static bool is_blanked(void) {
     if (!state_on) {
         return true;
@@ -154,9 +267,7 @@ static uint8_t output_scale(void) {
 static void compose(void) {
 #if IS_ENABLED(CONFIG_ZMK_PERKEY_RGB_CHASE)
     memset(pixels, 0, sizeof(pixels));
-    pixels[chase_index] =
-        hsb_to_rgb((struct prgb_hsb){.h = 0, .s = 0, .v = 100}, output_scale());
-    return;
+    pixels[chase_index] = hsb_to_rgb((struct prgb_hsb){.h = 0, .s = 0, .v = 100}, output_scale());
 #else
     if (is_blanked()) {
         memset(pixels, 0, sizeof(pixels));
@@ -164,21 +275,25 @@ static void compose(void) {
     }
 
     const uint8_t scale = output_scale();
+    const struct prgb_layer_cfg *cfg = layer_cfg(state_layer);
 
     for (size_t i = 0; i < LED_COUNT; i++) {
         uint8_t position = led_positions[i];
         struct prgb_hsb color;
 
         if (position == PRGB_UG) {
-            color = color_underglow;
+            color = (cfg && cfg->has_underglow) ? cfg->underglow : color_underglow;
         } else {
-            color = color_default;
-#if HAS_PRESSED_COLOR
-            if (pressed_positions & BIT64(position)) {
-                color = color_pressed;
-            }
-#endif
+            color = key_color(cfg, position);
         }
+
+#if HAS_PRESSED_COLOR
+        /* Press feedback sits on top of everything: it reports what your hand
+         * is doing right now, and it is how the LED map gets verified. */
+        if (position != PRGB_UG && (pressed_positions & BIT64(position))) {
+            color = color_pressed;
+        }
+#endif
 
         pixels[i] = hsb_to_rgb(color, scale);
     }
@@ -310,6 +425,19 @@ int zmk_perkey_rgb_set_brightness(uint8_t brightness) {
     state_brightness = brightness;
     request_render();
     request_save();
+
+    return 0;
+}
+
+uint8_t zmk_perkey_rgb_get_layer(void) { return state_layer; }
+
+int zmk_perkey_rgb_set_layer(uint8_t layer) {
+    if (state_layer == layer) {
+        return 0;
+    }
+
+    state_layer = layer;
+    request_render();
 
     return 0;
 }

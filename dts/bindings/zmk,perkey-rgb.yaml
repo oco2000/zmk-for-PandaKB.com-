@@ -7,18 +7,32 @@ description: |
   value 0-100. Value is scaled by the runtime brightness and by
   CONFIG_ZMK_PERKEY_RGB_BRT_MAX before it reaches the LEDs.
 
+  Each child node describes one layer. Layers are matched by their "layer"
+  property rather than by child order, so inserting a layer cannot silently
+  shift every colour.
+
 compatible: "zmk,perkey-rgb"
 
 properties:
   default-color:
     type: array
     required: true
-    description: Colour for a key with no more specific rule.
+    description: Colour for a key on a layer with no entry of its own.
 
   underglow-color:
     type: array
     required: true
     description: Colour for LEDs mapped to PRGB_UG.
+
+  unbound-color:
+    type: array
+    required: true
+    description: Colour for a key that is &trans or &none on the active layer.
+
+  modifier-color:
+    type: array
+    required: true
+    description: Colour for a key that holds a bare modifier on the active layer.
 
   pressed-color:
     type: array
@@ -27,3 +41,29 @@ properties:
       Colour for a key while it is physically held. Omit to disable press
       feedback entirely, which means an ordinary typing session emits no LED
       updates at all. Mainly a diagnostic for verifying the LED map.
+
+child-binding:
+  description: Colours for one layer.
+
+  properties:
+    layer:
+      type: int
+      required: true
+      description: Layer index this entry describes.
+
+    color:
+      type: array
+      required: true
+      description: Base colour for keys on this layer.
+
+    underglow-color:
+      type: array
+      required: false
+      description: Overrides the top-level underglow colour while this layer is active.
+
+    zones:
+      type: phandle-array
+      required: false
+      description: |
+        Zones to paint on this layer, each followed by its hue, saturation and
+        value. The first zone naming a given position wins.

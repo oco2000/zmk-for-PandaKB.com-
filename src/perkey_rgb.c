@@ -282,7 +282,12 @@ static void compose(void) {
         struct prgb_hsb color;
 
         if (position == PRGB_UG) {
-            color = (cfg && cfg->has_underglow) ? cfg->underglow : color_underglow;
+            /* Underglow follows the layer unless the layer overrides it. */
+            if (cfg) {
+                color = cfg->has_underglow ? cfg->underglow : cfg->color;
+            } else {
+                color = color_underglow;
+            }
         } else {
             color = key_color(cfg, position);
         }

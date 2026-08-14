@@ -22,7 +22,9 @@ properties:
   underglow-color:
     type: array
     required: true
-    description: Colour for LEDs mapped to PRGB_UG.
+    description: |
+      Colour for LEDs mapped to PRGB_UG, used only when the active layer has
+      no entry below. Otherwise those LEDs follow the layer's own colour.
 
   unbound-color:
     type: array
@@ -59,7 +61,9 @@ child-binding:
     underglow-color:
       type: array
       required: false
-      description: Overrides the top-level underglow colour while this layer is active.
+      description: |
+        Colour for the PRGB_UG LEDs on this layer. Defaults to this layer's
+        "color", so the underglow follows the layer unless told otherwise.
 
     zones:
       type: phandle-array

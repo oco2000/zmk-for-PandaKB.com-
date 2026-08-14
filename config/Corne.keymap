@@ -47,9 +47,12 @@
 
         // <hue 0-359  saturation 0-100  value 0-100>
         default-color   = <200 100  70>;
-        underglow-color = <200 100  50>;
-        unbound-color   = <  0   0   0>;   // off: no function on this layer
+        unbound-color   = <  0   0  25>;   // faint: no function on this layer
         modifier-color  = <  0   0 100>;   // white
+
+        // Only used on a layer with no entry below; otherwise the six
+        // underglow LEDs follow the active layer's colour.
+        underglow-color = <200 100  50>;
 
         // Press feedback, for verifying the LED map. Leaving it out means an
         // ordinary typing session emits no LED updates at all.
@@ -60,7 +63,7 @@
         main { layer = <MAIN>; color = <200 100  70>; };
         nav  { layer = <NAV>;  color = <120 100  70>; zones = <&prgb_arrows 200 100 100>; };
         sym  { layer = <SYM>;  color = < 20 100  70>; };
-        sys  { layer = <SYS>;  color = <  0 100  70>; underglow-color = <0 100 60>; };
+        sys  { layer = <SYS>;  color = <  0 100  70>; };
         fun  { layer = <FUN>;  color = <285 100  70>; };
         num  { layer = <NUM>;  color = < 55 100  70>; zones = <&prgb_numpad 200 100 100>; };
     };

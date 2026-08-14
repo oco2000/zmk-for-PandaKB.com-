@@ -61,7 +61,7 @@ struct prgb_hsb {
 
 static const struct prgb_hsb color_default = HSB(DT_DRV_INST(0), default_color);
 static const struct prgb_hsb color_underglow = HSB(DT_DRV_INST(0), underglow_color);
-static const struct prgb_hsb color_unbound = HSB(DT_DRV_INST(0), unbound_color);
+#define UNBOUND_VALUE DT_INST_PROP(0, unbound_value)
 static const struct prgb_hsb color_modifier = HSB(DT_DRV_INST(0), modifier_color);
 
 #define HAS_PRESSED_COLOR DT_INST_NODE_HAS_PROP(0, pressed_color)
@@ -230,8 +230,13 @@ static struct prgb_hsb key_color(const struct prgb_layer_cfg *cfg, uint8_t posit
         return target ? target->color : color_default;
     }
 
-    case ZMK_PERKEY_RGB_ROLE_UNBOUND:
-        return color_unbound;
+    case ZMK_PERKEY_RGB_ROLE_UNBOUND: {
+        /* Keep the layer's hue, just darker, so a dead key still reads as
+         * belonging to the layer. */
+        struct prgb_hsb dark = cfg ? cfg->color : color_default;
+        dark.v = UNBOUND_VALUE;
+        return dark;
+    }
 
     default:
         break;

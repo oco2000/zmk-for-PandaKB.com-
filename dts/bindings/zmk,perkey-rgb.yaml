@@ -26,10 +26,13 @@ properties:
       Colour for LEDs mapped to PRGB_UG, used only when the active layer has
       no entry below. Otherwise those LEDs follow the layer's own colour.
 
-  unbound-color:
-    type: array
+  unbound-value:
+    type: int
     required: true
-    description: Colour for a key that is &trans or &none on the active layer.
+    description: |
+      Value (0-100) for a key that is &trans or &none on the active layer. It
+      keeps the layer's hue and saturation, so an unbound key reads as a dark
+      version of the layer rather than a different colour.
 
   modifier-color:
     type: array

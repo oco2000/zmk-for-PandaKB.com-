@@ -26,6 +26,12 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
 
+/* Relayed behavior names travel in a 9-byte field including the terminator
+ * (ZMK_SPLIT_RUN_BEHAVIOR_DEV_LEN). A longer name is truncated in transit and
+ * the peripheral simply never finds the behavior, with no error on this side. */
+BUILD_ASSERT(sizeof(DEVICE_DT_NAME(DT_DRV_INST(0))) <= 9,
+             "the sync behavior's node name must be 8 characters or fewer to survive the split");
+
 static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
     switch (binding->param1) {

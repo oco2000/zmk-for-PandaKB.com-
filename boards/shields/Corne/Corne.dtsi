@@ -47,10 +47,15 @@
 	};
 
 	behaviors {
-		/* Internal transport for the per-key RGB layer state. The device
-		 * name is relayed as a string in a 16-byte field, so it must stay
-		 * short. */
-		prgb_sync: prgb_sync {
+		/* Internal transport for the per-key RGB layer state.
+		 *
+		 * The node name must be 8 characters or fewer: it is relayed to
+		 * peripherals in a 9-byte field including the terminator
+		 * (ZMK_SPLIT_RUN_BEHAVIOR_DEV_LEN, zmk/split/bluetooth/service.h),
+		 * and a longer name is silently truncated so the peripheral never
+		 * finds the behavior.
+		 */
+		prgb_sync: prgbsync {
 			compatible = "zmk,behavior-perkey-rgb-sync";
 			#binding-cells = <2>;
 			display-name = "Per-key RGB sync";

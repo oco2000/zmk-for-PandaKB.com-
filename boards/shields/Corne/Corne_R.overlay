@@ -29,3 +29,6 @@
         compatible = "zmk,battery-nrf-vddh";
     };
 };
+&perkey_rgb_map {
+    side = "right";
+};

@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  Maps each LED of the zmk,underglow strip to a key position, per half.
+
+  This is a hardware description and belongs in the shield, not the keymap.
+  Both halves' arrays are declared here and "side" selects which one this
+  firmware renders.
+
+compatible: "zmk,perkey-rgb-map"
+
+properties:
+  side:
+    type: string
+    required: true
+    enum:
+      - "left"
+      - "right"
+    description: Which of the two arrays this firmware renders.
+
+  left-leds:
+    type: array
+    required: true
+    description: |
+      One entry per strip LED, in strip order. Each value is a key position
+      (see dt-bindings/zmk/corne_positions.h) or PRGB_UG for an LED that does
+      not sit under a key. Length must equal the strip's chain-length.
+
+  right-leds:
+    type: array
+    required: true
+    description: Same as left-leds, for the right half.

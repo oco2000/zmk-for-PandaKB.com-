@@ -5,8 +5,42 @@
  */
 #include <dt-bindings/led/led.h>
 #include <dt-bindings/zmk/matrix_transform.h>
+#include <dt-bindings/zmk/corne_positions.h>
+#include <dt-bindings/zmk/perkey_rgb.h>
 #include "Corne-layouts.dtsi"
 / {
+	/*
+	 * Which key each strip LED sits under, in strip order. PRGB_UG marks an
+	 * LED that is not under a key.
+	 *
+	 * UNVERIFIED: derived from QMK's crkbd rev1 g_led_config, which snakes
+	 * from the inner thumb outward. Confirm with CONFIG_ZMK_PERKEY_RGB_CHASE
+	 * and record the result here.
+	 */
+	perkey_rgb_map: perkey_rgb_map {
+		compatible = "zmk,perkey-rgb-map";
+
+		left-leds
+			= <PRGB_UG PRGB_UG PRGB_UG PRGB_UG PRGB_UG PRGB_UG>
+			, <POS_TH3 POS_B6  POS_H6  POS_T6>
+			, <POS_T5  POS_H5  POS_B5  POS_TH2>
+			, <POS_TH1 POS_B4  POS_H4  POS_T4>
+			, <POS_T3  POS_H3  POS_B3>
+			, <POS_B2  POS_H2  POS_T2>
+			, <POS_T1  POS_H1  POS_B1>
+			;
+
+		right-leds
+			= <PRGB_UG PRGB_UG PRGB_UG PRGB_UG PRGB_UG PRGB_UG>
+			, <POS_TH4 POS_B7  POS_H7  POS_T7>
+			, <POS_T8  POS_H8  POS_B8  POS_TH5>
+			, <POS_TH6 POS_B9  POS_H9  POS_T9>
+			, <POS_T10 POS_H10 POS_B10>
+			, <POS_B11 POS_H11 POS_T11>
+			, <POS_T12 POS_H12 POS_B12>
+			;
+	};
+
 	chosen {
 		zephyr,display = &oled;
 		zmk,kscan = &kscan0;

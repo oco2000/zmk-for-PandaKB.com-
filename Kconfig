@@ -1,11 +1,61 @@
-config ZMK_UNDERGLOW_INDICATORS
-	bool "Tint the RGB underglow to show the active layer and held modifiers"
-	default y
-	depends on ZMK_RGB_UNDERGLOW
-	# Layer state, modifiers and the keymap only exist on the central side.
-	depends on !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
+menuconfig ZMK_PERKEY_RGB
+	bool "Per-key RGB indicators (replaces ZMK_RGB_UNDERGLOW)"
+	select LED_STRIP
 	help
-	  Sets the underglow hue and saturation from the highest active layer, and
-	  turns the strip white while a modifier is held on the base layer.
-	  Brightness and on/off state are left untouched. Only visible with the
-	  solid effect (CONFIG_ZMK_RGB_UNDERGLOW_EFF_START=0).
+	  Owns the whole addressable strip on this half and paints each LED
+	  according to the key it sits under. Requires CONFIG_ZMK_RGB_UNDERGLOW=n,
+	  since stock underglow rewrites every pixel every 50ms.
+
+if ZMK_PERKEY_RGB
+
+config ZMK_PERKEY_RGB_BRT_MAX
+	int "Maximum brightness percent"
+	default 60
+	range 1 100
+	help
+	  Hard ceiling applied to every colour, for the power budget.
+
+config ZMK_PERKEY_RGB_BRT_START
+	int "Brightness percent at first boot"
+	default 60
+	range 0 100
+
+config ZMK_PERKEY_RGB_BRT_STEP
+	int "Brightness percent per step"
+	default 10
+	range 1 100
+
+config ZMK_PERKEY_RGB_ON_START
+	bool "Start with the LEDs on"
+	default y
+
+config ZMK_PERKEY_RGB_AUTO_OFF_IDLE
+	bool "Blank the LEDs when the keyboard goes idle"
+	default y
+
+config ZMK_PERKEY_RGB_COALESCE_MS
+	int "Coalescing window before repainting"
+	default 10
+	help
+	  State changes arriving within this window produce a single repaint.
+
+config ZMK_PERKEY_RGB_MIN_INTERVAL_MS
+	int "Minimum interval between strip updates"
+	default 30
+	help
+	  Rate limit. Driving 27 LEDs costs roughly 1.3ms of SPI, so unbounded
+	  repainting would burn more power than stock underglow's 20Hz tick.
+
+config ZMK_PERKEY_RGB_CHASE
+	bool "Diagnostic: walk a single lit LED along the strip"
+	help
+	  Lights one LED at a time, stepping along the physical chain, and logs
+	  the index. Used to discover the real LED order and count. Overrides all
+	  normal rendering.
+
+config ZMK_PERKEY_RGB_CHASE_MS
+	int "Milliseconds per LED in chase mode"
+	default 2000
+	depends on ZMK_PERKEY_RGB_CHASE
+
+endif # ZMK_PERKEY_RGB

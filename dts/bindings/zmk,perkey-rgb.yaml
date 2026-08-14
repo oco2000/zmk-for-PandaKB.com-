@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  Per-key RGB indicator colours.
+
+  Every colour is <hue saturation value> with hue 0-359 and saturation and
+  value 0-100. Value is scaled by the runtime brightness and by
+  CONFIG_ZMK_PERKEY_RGB_BRT_MAX before it reaches the LEDs.
+
+compatible: "zmk,perkey-rgb"
+
+properties:
+  default-color:
+    type: array
+    required: true
+    description: Colour for a key with no more specific rule.
+
+  underglow-color:
+    type: array
+    required: true
+    description: Colour for LEDs mapped to PRGB_UG.
+
+  pressed-color:
+    type: array
+    required: false
+    description: |
+      Colour for a key while it is physically held. Omit to disable press
+      feedback entirely, which means an ordinary typing session emits no LED
+      updates at all. Mainly a diagnostic for verifying the LED map.

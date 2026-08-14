@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+
+description: Per-key RGB control (on/off and brightness).
+
+compatible: "zmk,behavior-perkey-rgb"
+
+include: two_param.yaml

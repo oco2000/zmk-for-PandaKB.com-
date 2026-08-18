@@ -11,12 +11,17 @@
 #include <dt-bindings/zmk/corne_positions.h>
 #include <dt-bindings/zmk/perkey_rgb.h>
 
+// Layer numbers are the order of the children of the keymap node below.
+// GAME sits directly above MAIN so that, while it is toggled on, the layers
+// above it can still shadow it: a fully opaque layer at the top would hide
+// NAV, SYM and SYS, leaving no way back out.
 #define MAIN 0
-#define NAV  1
-#define SYM  2
-#define SYS  3
-#define FUN  4
-#define NUM  5
+#define GAME 1
+#define NAV  2
+#define SYM  3
+#define SYS  4
+#define FUN  5
+#define NUM  6
 
 &mt {
     tapping-term-ms = <300>;
@@ -102,6 +107,8 @@
             zones = <&prgb_pad_r     200 100 100>,
                     <&prgb_num_zero  200 100 100>;
         };
+
+        game { layer = <GAME>; color = <165 100  70>; };
     };
 
 
@@ -152,6 +159,20 @@
             display-name = "MAIN";
         };
 
+        game_layer {
+            // Nothing here may be a hold-tap: every key reports the instant it
+            // is pressed, so a held WASD or shift can never resolve as a tap.
+            // Space sits on the left thumb, enter on the right.
+            bindings = <
+&kp TAB    &kp Q  &kp W  &kp E      &kp R       &kp T      &kp Y      &kp U    &kp I      &kp O    &kp P     &kp BSPC
+&kp LSHFT  &kp A  &kp S  &kp D      &kp F       &kp G      &kp H      &kp J    &kp K      &kp L    &kp SEMI  &kp SQT
+&kp LCTRL  &kp Z  &kp X  &kp C      &kp V       &kp B      &kp N      &kp M    &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
+                         &kp LGUI   &mo NAV     &kp SPACE  &kp RET    &mo SYM  &kp RALT
+            >;
+
+            display-name = "GAME";
+        };
+
         nav_layer {
             bindings = <
 &trans   &trans        &kp LC(HOME)  &kp LC(UP)          &kp LC(PAGE_UP)     &kp LA(LEFT)  &trans       &kp HOME  &kp UP          &kp PAGE_UP    &trans         &trans
@@ -178,7 +199,7 @@
             bindings = <
 &trans      &sys_reset       &bootloader      &trans           &trans             &trans           &sys_reset  &bootloader      &trans  &trans  &trans  &trans
 &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4     &trans      &kp PRINTSCREEN  &trans  &trans  &trans  &trans
-&trans      &prgb PRGB_BRD   &prgb PRGB_TOG   &prgb PRGB_BRI   &ext_power EP_TOG  &trans           &trans      &trans           &trans  &trans  &trans  &trans
+&trans      &prgb PRGB_BRD   &prgb PRGB_TOG   &prgb PRGB_BRI   &trans             &tog GAME        &trans      &trans           &trans  &trans  &trans  &trans
                                               &trans           &trans             &trans           &trans      &trans           &trans
             >;
 
@@ -206,5 +227,6 @@
 
             display-name = "NUM";
         };
+
     };
 };

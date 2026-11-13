@@ -199,7 +199,7 @@
             bindings = <
 &trans      &sys_reset       &bootloader      &trans           &trans             &trans           &sys_reset  &bootloader      &trans  &trans  &trans  &trans
 &bt BT_CLR  &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3       &bt BT_SEL 4     &trans      &kp PRINTSCREEN  &trans  &trans  &trans  &trans
-&trans      &prgb PRGB_BRD   &prgb PRGB_TOG   &prgb PRGB_BRI   &trans             &tog GAME        &trans      &trans           &trans  &trans  &trans  &trans
+&trans      &prgb PRGB_BRD   &prgb PRGB_TOG   &prgb PRGB_BRI   &prgb PRGB_UG_TOG  &tog GAME        &trans      &trans           &trans  &trans  &trans  &trans
                                               &trans           &trans             &trans           &trans      &trans           &trans
             >;
 

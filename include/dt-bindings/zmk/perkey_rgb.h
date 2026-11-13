@@ -13,9 +13,13 @@
 #define PRGB_BRI_CMD 3
 #define PRGB_BRD_CMD 4
 #define PRGB_BRT_CMD 5 /* absolute brightness, param2 = 0..100 */
+#define PRGB_UG_TOG_CMD 6
+#define PRGB_UG_ON_CMD  7
+#define PRGB_UG_OFF_CMD 8
 
 #define PRGB_TOG PRGB_TOG_CMD 0
 #define PRGB_ON  PRGB_ON_CMD 0
 #define PRGB_OFF PRGB_OFF_CMD 0
 #define PRGB_BRI PRGB_BRI_CMD 0
 #define PRGB_BRD PRGB_BRD_CMD 0
+#define PRGB_UG_TOG PRGB_UG_TOG_CMD 0

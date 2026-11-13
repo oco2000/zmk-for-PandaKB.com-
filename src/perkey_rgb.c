@@ -126,12 +126,13 @@ struct prgb_layer_cfg {
 
 static const struct prgb_layer_cfg layer_cfgs[] = {DT_INST_FOREACH_CHILD_STATUS_OKAY(0, LAYER_CFG)};
 
-#define SETTINGS_VERSION 1
+#define SETTINGS_VERSION 2
 
 struct prgb_settings {
     uint8_t version;
     uint8_t on;
     uint8_t brightness;
+    uint8_t underglow;
 } __packed;
 
 static const struct device *strip;
@@ -142,6 +143,7 @@ static bool ever_sent;
 
 static bool state_on = IS_ENABLED(CONFIG_ZMK_PERKEY_RGB_ON_START);
 static uint8_t state_brightness = CONFIG_ZMK_PERKEY_RGB_BRT_START;
+static bool state_underglow = true;
 static uint8_t state_layer;
 
 static uint64_t pressed_positions;
@@ -288,7 +290,9 @@ static void compose(void) {
 
         if (position == PRGB_UG) {
             /* Underglow follows the layer unless the layer overrides it. */
-            if (cfg) {
+            if (!state_underglow) {
+                color = (struct prgb_hsb){0};
+            } else if (cfg) {
                 color = cfg->has_underglow ? cfg->underglow : cfg->color;
             } else {
                 color = color_underglow;
@@ -363,6 +367,7 @@ static void save_work_handler(struct k_work *work) {
         .version = SETTINGS_VERSION,
         .on = state_on,
         .brightness = state_brightness,
+        .underglow = state_underglow,
     };
 
     settings_save_one("prgb/state", &saved, sizeof(saved));
@@ -397,6 +402,7 @@ static int prgb_settings_set(const char *name, size_t len, settings_read_cb read
 
     state_on = saved.on;
     state_brightness = MIN(saved.brightness, 100);
+    state_underglow = saved.underglow;
     request_render();
 
     return 0;
@@ -412,6 +418,20 @@ int zmk_perkey_rgb_set_on(bool on) {
     }
 
     state_on = on;
+    request_render();
+    request_save();
+
+    return 0;
+}
+
+bool zmk_perkey_rgb_underglow_is_on(void) { return state_underglow; }
+
+int zmk_perkey_rgb_set_underglow(bool on) {
+    if (state_underglow == on) {
+        return 0;
+    }
+
+    state_underglow = on;
     request_render();
     request_save();
 

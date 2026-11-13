@@ -21,7 +21,9 @@ Highlighting is **static**: it depends on the active layer, not on what is curre
 modifier changes nothing, because the key was already lit as a modifier.
 
 Control keys live on the SYS layer: `&prgb PRGB_TOG` (on/off), `&prgb PRGB_BRI` / `&prgb PRGB_BRD`
-(brightness). The LEDs start **off** and the on/off + brightness choice is persisted.
+(brightness), `&prgb PRGB_UG_TOG` (underglow on/off, on `V`). The underglow switch only matters
+while the global switch is on; global off blanks every LED. The LEDs start **off**, underglow starts
+on, and all three settings are persisted.
 
 ## How it works
 
@@ -250,7 +252,7 @@ There is no local toolchain; GitHub Actions builds on push. After flashing both 
    split.
 4. NUM lights the numpad block; FUN lights all of F1-F12.
 5. `&trans` keys are dark on every layer; nothing is dark on MAIN.
-6. `PRGB_TOG` and the brightness keys move both halves together.
+6. `PRGB_TOG`, `PRGB_UG_TOG` and the brightness keys move both halves together.
 7. Leave it 60 s: both halves blank. Type: they return.
 
 ## History

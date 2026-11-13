@@ -10,6 +10,9 @@
 bool zmk_perkey_rgb_is_on(void);
 int zmk_perkey_rgb_set_on(bool on);
 
+bool zmk_perkey_rgb_underglow_is_on(void);
+int zmk_perkey_rgb_set_underglow(bool on);
+
 uint8_t zmk_perkey_rgb_get_brightness(void);
 
 /* Current brightness stepped by direction, clamped. Does not apply it. */

@@ -29,6 +29,10 @@ static int on_keymap_binding_convert_central_state_dependent_params(
         binding->param1 = zmk_perkey_rgb_is_on() ? PRGB_OFF_CMD : PRGB_ON_CMD;
         binding->param2 = 0;
         break;
+    case PRGB_UG_TOG_CMD:
+        binding->param1 = zmk_perkey_rgb_underglow_is_on() ? PRGB_UG_OFF_CMD : PRGB_UG_ON_CMD;
+        binding->param2 = 0;
+        break;
     case PRGB_BRI_CMD:
         binding->param1 = PRGB_BRT_CMD;
         binding->param2 = zmk_perkey_rgb_calc_brightness(1);
@@ -53,6 +57,12 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
         return zmk_perkey_rgb_set_on(false);
     case PRGB_TOG_CMD:
         return zmk_perkey_rgb_set_on(!zmk_perkey_rgb_is_on());
+    case PRGB_UG_ON_CMD:
+        return zmk_perkey_rgb_set_underglow(true);
+    case PRGB_UG_OFF_CMD:
+        return zmk_perkey_rgb_set_underglow(false);
+    case PRGB_UG_TOG_CMD:
+        return zmk_perkey_rgb_set_underglow(!zmk_perkey_rgb_underglow_is_on());
     case PRGB_BRT_CMD:
         return zmk_perkey_rgb_set_brightness(binding->param2);
     case PRGB_BRI_CMD:
